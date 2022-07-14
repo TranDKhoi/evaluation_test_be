@@ -2,16 +2,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+const dotenv = require("dotenv").config();
 
 //import from file
 const userRoutes = require("./routes/user")
 const jokeRoutes = require("./routes/joke")
 
 //config app
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const app = express();
-dotenv.config();
 
 app.use(bodyParser.json({ limit: "50mb" }));
 
