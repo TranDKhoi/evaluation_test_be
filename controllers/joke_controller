@@ -1,0 +1,47 @@
+const { Joke } = require("../models/joke")
+
+const jokeController = {
+    addJoke: async (req, res) => {
+        try {
+
+            if (req.body.content == null) {
+                return res.status(400).json({
+                    message: "Invalid joke content",
+                    data: null,
+                })
+            }
+
+            const joke = new Joke({
+                content: req.body.content,
+            });
+
+            const save = await joke.save();
+
+            return res.status(200).json({
+                message: "Add joke successfully",
+                data: save,
+            });
+
+        } catch (e) {
+            res.status(500).json(e)
+        }
+    },
+
+    getAllJoke: async (req, res) => {
+
+        try {
+
+            const jokes = await Joke.find();
+
+            res.status(200).json({
+                message: "Get all joke successfully",
+                data: jokes,
+            })
+
+        } catch (e) {
+            res.status(500).json(e)
+        }
+    }
+}
+
+module.exports = jokeController;

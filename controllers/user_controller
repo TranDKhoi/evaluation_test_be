@@ -1,0 +1,75 @@
+const { User } = require("../models/user")
+
+
+const userController = {
+    getUserData: async (req, res) => {
+
+        try {
+
+            const data = await User.findOne({ id: "1" })
+            console.log(data)
+
+            return res.status(200).json({
+                message: "Get data successfully",
+                data: data,
+            });
+
+        } catch (e) {
+            res.status(500).json(e);
+        }
+    },
+
+    userVoteJoke: async (req, res) => {
+        try {
+
+            await User.updateOne(
+                { "id": "1" },
+                { $set: { vote: req.body.vote, jokeIndex: req.body.jokeIndex, jokeId: req.body.jokeId } })
+
+            
+            return res.status(200).json({
+                message: "Voted success"
+            })
+        } catch (e) {
+            console.log(e)
+            res.status(500).json(e)
+        }
+    },
+
+    clearUserData: async (req, res) => {
+
+        try {
+
+            await User.updateOne({ id: "1" }, { $set: { vote: "0", jokeIndex: "0" } })
+
+            res.status(200).json({
+                message: "Cookie cleared!",
+            })
+
+        } catch (e) {
+            res.status(500).json(e);
+        }
+
+
+    },
+
+    createUser: async (req, res) => {
+        try {
+
+            const user = new User({ id: "1", jokeIndex: 0 })
+
+            const save = await user.save();
+
+            return res.status(200).json({
+                message: "Create user successfully",
+                data: save,
+            });
+
+        } catch (e) {
+            res.status(500).json(e);
+        }
+    }
+}
+
+
+module.exports = userController;
