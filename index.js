@@ -40,13 +40,16 @@ mongoose.connect(process.env.DB, {
         process.exit();
     });
 
-  
-  //apply route for app
-app.use("/api/user",userRoutes)
-app.use("/api/joke",jokeRoutes)
+
+//apply route for app
+app.use("/api/user", userRoutes)
+app.use("/api/joke", jokeRoutes)
+app.get("/", (req, res) => {
+    res.json("hello there")
+})
 //////////////////////////////
 
 
-  app.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log("server is running on port " + PORT);
 });
